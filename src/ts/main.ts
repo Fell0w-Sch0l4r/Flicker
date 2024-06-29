@@ -15,6 +15,9 @@ const checkbox = document.querySelector(".favoriteMovies") as HTMLInputElement;
 
 
 mainHeader.addEventListener("click", () => {
+    if(checkbox.checked){
+        checkbox.checked = false
+    }
     getPopularMovies();
 });
 
