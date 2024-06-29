@@ -18,6 +18,8 @@ mainHeader.addEventListener("click", () => {
     if(checkbox.checked){
         checkbox.checked = false
     }
+
+    searchInput.value = ""
     getPopularMovies();
 });
 
@@ -27,6 +29,7 @@ checkbox.addEventListener("change", () => {
         console.log("Checkbox is checked");
         // Perform action when checked
         mana.innerHTML = "";
+        searchInput.value = "";
 
         for (const movie of favoriteMovies) {
             renderMoviePoster(movie);
