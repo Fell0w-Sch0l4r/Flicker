@@ -17,3 +17,30 @@ const checkbox = document.querySelector(".favoriteMovies") as HTMLInputElement;
 mainHeader.addEventListener("click", () => {
     getPopularMovies();
 });
+
+
+function parseAPIMovie(apiMovie: APIMovie): Movie {
+    const movie: Movie = {
+        image:
+            "https://image.tmdb.org/t/p/w600_and_h900_bestv2" +
+            apiMovie.poster_path,
+        title: apiMovie.title,
+        rating: decreaseDecimalPlace(apiMovie.vote_average),
+        year: parseYear(apiMovie.release_date),
+        description: apiMovie.overview,
+        isFavorite: false,
+    };
+
+    return movie;
+}
+
+
+function parseYear(date: string): number {
+    let year: number = parseInt(date.split("-")[0]);
+    return year;
+}
+
+function decreaseDecimalPlace(num: number): number {
+    let roundedNum: number = Math.round(num * 10) / 10;
+    return roundedNum;
+}
