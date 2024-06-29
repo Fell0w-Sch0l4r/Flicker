@@ -57,3 +57,13 @@ function getFavoriteMoviesfromLocal(): Movie[] {
 function addFavoriteMoviesToLocal(favoriteMovies: Movie[]): void {
     localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
 }
+
+function sameObjectMovie(movie1: Movie, movie2: Movie): boolean {
+    return (
+        movie1.image === movie2.image &&
+        movie1.title === movie2.title &&
+        movie1.rating === movie2.rating &&
+        movie1.year === movie2.year &&
+        movie1.description === movie2.description
+    );
+}
