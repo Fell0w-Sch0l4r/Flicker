@@ -42,6 +42,10 @@ checkbox.addEventListener("change", () => {
 searchBar.addEventListener("submit", (e: Event) => {
     e.preventDefault();
 
+    if (checkbox.checked) {
+        checkbox.checked = false;
+    }
+
     console.log(searchInput.value);
 
     searchInput.blur();
@@ -163,7 +167,7 @@ function renderMoviePoster(movie: Movie): void {
 
     // Create the inner div
     const innerDiv = document.createElement("div");
-    innerDiv.className = "flex sm:flex-col lg:flex-row justify-between lg:w-60";
+    innerDiv.className = "flex sm:flex-col lg:flex-row justify-between";
 
     // Create the first span
     const starSpan = document.createElement("span");
@@ -173,7 +177,7 @@ function renderMoviePoster(movie: Movie): void {
     // Create the second span
     const heartSpan = document.createElement("span") as HTMLSpanElement;
     heartSpan.className =
-        "cursor-pointer flex w-24 md:w-32 justify-between items-center";
+        "cursor-pointer flex w-40 md:w-48 justify-between items-center border lg:w-48";
 
     if (movie.isFavorite) {
         heartSpan.innerHTML =
