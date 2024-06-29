@@ -1,3 +1,4 @@
 import "../styles/tailwind.css";
-
-console.log(import.meta.env.VITE_TMDB_TOKEN)
+import Movie from "./interfaces/Movie";
+import APIMovie from "./interfaces/TMDBAPIMovie";
+import axios from "axios";
