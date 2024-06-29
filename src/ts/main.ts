@@ -177,10 +177,10 @@ function renderMoviePoster(movie: Movie): void {
 
     if (movie.isFavorite) {
         heartSpan.innerHTML =
-            '<img class="size-7 hidden" src="Heart.svg" alt="" /><img class="size-7" src="filledHeart.svg" alt="" /> Favorite';
+            '<img class="size-7 hidden" src="Heart.svg" alt="" /><img class="size-7" src="filledHeart.svg" alt="" />Add to Favorites';
     } else {
         heartSpan.innerHTML =
-            '<img class="size-7" src="Heart.svg" alt="" /><img class="size-7 hidden" src="filledHeart.svg" alt="" /> Favorite';
+            '<img class="size-7" src="Heart.svg" alt="" /><img class="size-7 hidden" src="filledHeart.svg" alt="" />Add to Favorites';
     }
 
     heartSpan.addEventListener("click", () => {
