@@ -44,3 +44,16 @@ function decreaseDecimalPlace(num: number): number {
     let roundedNum: number = Math.round(num * 10) / 10;
     return roundedNum;
 }
+
+
+function getFavoriteMoviesfromLocal(): Movie[] {
+    const localMovies: string | null = localStorage.getItem("favoriteMovies");
+    if (localMovies) {
+        return JSON.parse(localMovies);
+    }
+    return [];
+}
+
+function addFavoriteMoviesToLocal(favoriteMovies: Movie[]): void {
+    localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
+}
