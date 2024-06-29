@@ -38,6 +38,7 @@ checkbox.addEventListener("change", () => {
         // Checkbox is unchecked
         console.log("Checkbox is unchecked");
         // Perform action when unchecked
+        searchInput.value = "";
         getPopularMovies();
     }
 });
