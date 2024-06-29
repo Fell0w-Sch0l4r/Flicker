@@ -177,7 +177,7 @@ function renderMoviePoster(movie: Movie): void {
     // Create the second span
     const heartSpan = document.createElement("span") as HTMLSpanElement;
     heartSpan.className =
-        "cursor-pointer flex w-40 md:w-48 justify-between items-center border lg:w-48";
+        "cursor-pointer flex w-40 md:w-48 justify-between items-center lg:w-48";
 
     if (movie.isFavorite) {
         heartSpan.innerHTML =
