@@ -18,6 +18,70 @@ mainHeader.addEventListener("click", () => {
     getPopularMovies();
 });
 
+checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+        // Checkbox is checked
+        console.log("Checkbox is checked");
+        // Perform action when checked
+        mana.innerHTML = "";
+
+        for (const movie of favoriteMovies) {
+            renderMoviePoster(movie);
+        }
+    } else {
+        // Checkbox is unchecked
+        console.log("Checkbox is unchecked");
+        // Perform action when unchecked
+        getPopularMovies();
+    }
+});
+
+searchBar.addEventListener("submit", (e: Event) => {
+    e.preventDefault();
+
+    console.log(searchInput.value);
+
+    searchInput.blur();
+
+    const options = {
+        method: "GET",
+        url: "https://api.themoviedb.org/3/search/movie",
+        params: {
+            query: searchInput.value,
+            include_adult: "false",
+            language: "en-US",
+            page: "1",
+        },
+        headers: {
+            accept: "application/json",
+            Authorization: "Bearer " + import.meta.env.VITE_TMDB_TOKEN,
+        },
+    };
+
+    axios.request(options).then(function (response) {
+        //console.log(response.data);
+        const apiMovies: APIMovie[] = response.data.results;
+        //console.log(apiMovies)
+
+        const movies: Movie[] = [];
+
+        for (const apiMovie of apiMovies) {
+            const movie: Movie = parseAPIMovie(apiMovie);
+            movies.push(movie);
+        }
+
+        console.log(movies);
+    
+        mana.innerHTML = "";
+
+        for (const movie of movies) {
+            renderMoviePoster(movie);
+        }
+    });
+});
+
+getPopularMovies();
+
 
 function parseAPIMovie(apiMovie: APIMovie): Movie {
     const movie: Movie = {
@@ -110,10 +174,10 @@ function renderMoviePoster(movie: Movie): void {
 
     if (movie.isFavorite) {
         heartSpan.innerHTML =
-            '<img class="size-7 hidden" src="Heart.svg" alt="" /><img class="size-7" src="filledHeart.svg" alt="" /> Favorito';
+            '<img class="size-7 hidden" src="Heart.svg" alt="" /><img class="size-7" src="filledHeart.svg" alt="" /> Favorite';
     } else {
         heartSpan.innerHTML =
-            '<img class="size-7" src="Heart.svg" alt="" /><img class="size-7 hidden" src="filledHeart.svg" alt="" /> Favorito';
+            '<img class="size-7" src="Heart.svg" alt="" /><img class="size-7 hidden" src="filledHeart.svg" alt="" /> Favorite';
     }
 
     heartSpan.addEventListener("click", () => {
