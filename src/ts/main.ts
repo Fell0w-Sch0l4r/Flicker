@@ -32,9 +32,7 @@ checkbox.addEventListener("change", () => {
         mana.innerHTML = "";
         searchInput.value = "";
 
-        for (const movie of favoriteMovies) {
-            renderMoviePoster(movie);
-        }
+        renderMoviePosters(favoriteMovies)
     } else {
         // Checkbox is unchecked
         console.log("Checkbox is unchecked");
@@ -254,7 +252,6 @@ function getPopularMovies() {
     axios
         .request(options)
         .then(function (response) {
-            console.log(response)
             const apiMovies: APIMovie[] = response.data.results;
             //console.log(apiMovies)
 
