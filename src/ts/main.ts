@@ -121,7 +121,7 @@ function addFavoriteMoviesToLocal(favoriteMovies: Movie[]): void {
     localStorage.setItem("favoriteMovies", JSON.stringify(favoriteMovies));
 }
 
-function sameObjectMovie(movie1: Movie, movie2: Movie): boolean {
+function equalMovieObject(movie1: Movie, movie2: Movie): boolean {
     return (
         movie1.image === movie2.image &&
         movie1.title === movie2.title &&
@@ -216,7 +216,7 @@ function renderMoviePoster(movie: Movie): void {
 
 function deleteMovieFromFavorites(movie: Movie): void{
     for (let index = 0; index < favoriteMovies.length; index++) {
-        if (sameObjectMovie(movie, favoriteMovies[index])) {
+        if (equalMovieObject(movie, favoriteMovies[index])) {
             favoriteMovies.splice(index, 1);
             addFavoriteMoviesToLocal(favoriteMovies);
             break;
