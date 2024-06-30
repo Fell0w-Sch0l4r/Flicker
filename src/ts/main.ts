@@ -2,6 +2,7 @@ import "../styles/tailwind.css";
 import Movie from "./interfaces/Movie";
 import APIMovie from "./interfaces/TMDBAPIMovie";
 import axios from "axios";
+import TMDBAxiosResponse from "./interfaces/TMDBAxiosResponse";
 
 
 const searchBar = document.querySelector("form") as HTMLFormElement;
@@ -69,25 +70,23 @@ searchBar.addEventListener("submit", (e: Event) => {
         },
     };
 
-    axios.request(options).then(function (response) {
+    axios
+    .request(options)
+    .then(function (response) {
         //console.log(response.data);
         const apiMovies: APIMovie[] = response.data.results;
         //console.log(apiMovies)
 
-        const movies: Movie[] = [];
-
-        for (const apiMovie of apiMovies) {
-            const movie: Movie = parseAPIMovie(apiMovie);
-            movies.push(movie);
-        }
+        const movies: Movie[] = parseAPIMovies(apiMovies)
 
         console.log(movies);
     
         mana.innerHTML = "";
 
-        for (const movie of movies) {
-            renderMoviePoster(movie);
-        }
+        renderMoviePosters(movies)
+    })
+    .catch((error) => {
+        console.error(error)
     });
 });
 
@@ -107,6 +106,10 @@ function parseAPIMovie(apiMovie: APIMovie): Movie {
     };
 
     return movie;
+}
+
+function parseAPIMovies(apiMovies: APIMovie[]): Movie[]{
+    return apiMovies.map(parseAPIMovie)
 }
 
 
@@ -232,6 +235,10 @@ function renderMoviePoster(movie: Movie): void {
     document.querySelector("main")?.appendChild(moviePoster);
 }
 
+function renderMoviePosters(movies: Movie[]): void{
+    movies.forEach(renderMoviePoster)
+}
+
 
 function getPopularMovies() {
     const options = {
@@ -247,25 +254,19 @@ function getPopularMovies() {
     axios
         .request(options)
         .then(function (response) {
+            console.log(response)
             const apiMovies: APIMovie[] = response.data.results;
             //console.log(apiMovies)
 
-            const movies: Movie[] = [];
-
-            for (const apiMovie of apiMovies) {
-                const movie: Movie = parseAPIMovie(apiMovie);
-                movies.push(movie);
-            }
+            const movies: Movie[] = parseAPIMovies(apiMovies);
 
             console.log(movies);
 
             mana.innerHTML = "";
 
-            for (const movie of movies) {
-                renderMoviePoster(movie);
-            }
+            renderMoviePosters(movies);
         })
-        .catch(function (error) {
+        .catch((error) => {
             console.error(error);
         });
 }
