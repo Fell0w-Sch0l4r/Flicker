@@ -1,8 +1,7 @@
 import "../styles/tailwind.css";
 import Movie from "./interfaces/Movie";
 import APIMovie from "./interfaces/TMDBAPIMovie";
-import axios from "axios";
-import TMDBAxiosResponse from "./interfaces/TMDBAxiosResponse";
+import axios, { AxiosResponse } from "axios";
 
 
 const searchBar = document.querySelector("form") as HTMLFormElement;
@@ -70,19 +69,7 @@ searchBar.addEventListener("submit", (e: Event) => {
 
     axios
     .request(options)
-    .then(function (response) {
-        //console.log(response.data);
-        const apiMovies: APIMovie[] = response.data.results;
-        //console.log(apiMovies)
-
-        const movies: Movie[] = parseAPIMovies(apiMovies)
-
-        console.log(movies);
-    
-        mana.innerHTML = "";
-
-        renderMoviePosters(movies)
-    })
+    .then(handleTMDBAResponse)
     .catch((error) => {
         console.error(error)
     });
@@ -202,13 +189,7 @@ function renderMoviePoster(movie: Movie): void {
             heartSpan.children[1].classList.remove("hidden");
             heartSpan.children[0].classList.add("hidden");
         } else {
-            for (let index = 0; index < favoriteMovies.length; index++) {
-                if (sameObjectMovie(movie, favoriteMovies[index])) {
-                    favoriteMovies.splice(index, 1);
-                    addFavoriteMoviesToLocal(favoriteMovies);
-                    break;
-                }
-            }
+            deleteMovieFromFavorites(movie)
             heartSpan.children[1].classList.add("hidden");
             heartSpan.children[0].classList.remove("hidden");
         }
@@ -233,6 +214,16 @@ function renderMoviePoster(movie: Movie): void {
     document.querySelector("main")?.appendChild(moviePoster);
 }
 
+function deleteMovieFromFavorites(movie: Movie): void{
+    for (let index = 0; index < favoriteMovies.length; index++) {
+        if (sameObjectMovie(movie, favoriteMovies[index])) {
+            favoriteMovies.splice(index, 1);
+            addFavoriteMoviesToLocal(favoriteMovies);
+            break;
+        }
+    }
+}
+
 function renderMoviePosters(movies: Movie[]): void{
     movies.forEach(renderMoviePoster)
 }
@@ -251,19 +242,21 @@ function getPopularMovies() {
 
     axios
         .request(options)
-        .then(function (response) {
-            const apiMovies: APIMovie[] = response.data.results;
-            //console.log(apiMovies)
-
-            const movies: Movie[] = parseAPIMovies(apiMovies);
-
-            console.log(movies);
-
-            mana.innerHTML = "";
-
-            renderMoviePosters(movies);
-        })
+        .then(handleTMDBAResponse)
         .catch((error) => {
             console.error(error);
         });
+}
+
+function handleTMDBAResponse(response: AxiosResponse): void{
+    const apiMovies: APIMovie[] = response.data.results;
+    //console.log(apiMovies)
+
+    const movies: Movie[] = parseAPIMovies(apiMovies);
+
+    console.log(movies);
+
+    mana.innerHTML = "";
+
+    renderMoviePosters(movies);
 }
