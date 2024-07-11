@@ -252,11 +252,23 @@ function handleTMDBAResponse(response: AxiosResponse): void{
     const apiMovies: APIMovie[] = response.data.results;
     //console.log(apiMovies)
 
-    const movies: Movie[] = parseAPIMovies(apiMovies);
+    const movies: Movie[] = parseAPIMovies(apiMovies).map(movieIsFavorite);
 
     console.log(movies);
 
     mana.innerHTML = "";
 
     renderMoviePosters(movies);
+}
+
+
+function movieIsFavorite(movie: Movie): Movie{
+    for (const favoriteMovie of favoriteMovies) {
+        if(equalMovieObject(movie, favoriteMovie)){
+            movie.isFavorite = true
+            return movie
+        }
+    }
+
+    return movie
 }
